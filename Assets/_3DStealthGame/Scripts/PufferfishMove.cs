@@ -10,22 +10,17 @@ public class PufferfishMove : MonoBehaviour
 
     void Start()
     {
-        // Move forward based on initial facing direction
         direction = transform.forward;
     }
 
     void Update()
     {
-        // Move in current direction
         transform.position += direction * speed * Time.deltaTime;
 
-        // Check for walls using a raycast
         if (Physics.Raycast(transform.position, direction, detectDistance, wallLayer))
         {
-            // Flip direction 180 degrees
             direction = -direction;
 
-            // Rotate to face new direction
             transform.forward = direction;
         }
     }
