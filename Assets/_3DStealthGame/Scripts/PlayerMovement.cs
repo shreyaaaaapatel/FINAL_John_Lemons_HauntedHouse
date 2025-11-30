@@ -7,24 +7,29 @@ public class PlayerMovement : MonoBehaviour
 {
     Animator m_Animator;
     public InputAction MoveAction;
+    public InputAction SprintAction; // New sprint input action
     AudioSource m_AudioSource;
 
     public float walkSpeed = 1.0f;
+    public float sprintSpeed = 2.0f; // New sprint speed
     public float turnSpeed = 20f;
 
     Rigidbody m_Rigidbody;
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
+    bool m_IsSprinting = false; // Track sprint state
 
-    void Start ()
+
+    void Start()
     {
-        m_Rigidbody = GetComponent<Rigidbody> ();
+        m_Rigidbody = GetComponent<Rigidbody>();
         MoveAction.Enable();
-        m_Animator = GetComponent<Animator> ();
+        SprintAction.Enable(); // Enable the sprint action
+        m_Animator = GetComponent<Animator>();
         m_AudioSource = GetComponent<AudioSource>();
     }
 
-    void FixedUpdate ()
+    void FixedUpdate()
     {
         var pos = MoveAction.ReadValue<Vector2>();
         
@@ -32,28 +37,50 @@ public class PlayerMovement : MonoBehaviour
         float vertical = pos.y;
         
         m_Movement.Set(horizontal, 0f, vertical);
-        m_Movement.Normalize ();
+        m_Movement.Normalize();
 
-        bool hasHorizontalInput = !Mathf.Approximately (horizontal, 0f);
-        bool hasVerticalInput = !Mathf.Approximately (vertical, 0f);
+        bool hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
+        bool hasVerticalInput = !Mathf.Approximately(vertical, 0f);
         bool isWalking = hasHorizontalInput || hasVerticalInput;
-        m_Animator.SetBool ("IsWalking", isWalking);
+        m_Animator.SetBool("IsWalking", isWalking);
 
-        Vector3 desiredForward = Vector3.RotateTowards (transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
-        m_Rotation = Quaternion.LookRotation (desiredForward);
+        // Check if sprint button is pressed and player is moving
+        m_IsSprinting = SprintAction.ReadValue<float>() > 0.5f && isWalking;
+        m_Animator.SetBool("IsSprinting", m_IsSprinting);
+
+        // Calculate current speed based on sprint state
+        float currentSpeed = m_IsSprinting ? sprintSpeed : walkSpeed;
+
+        Vector3 desiredForward = Vector3.RotateTowards(transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
+        m_Rotation = Quaternion.LookRotation(desiredForward);
         
-        m_Rigidbody.MoveRotation (m_Rotation);
-        m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * walkSpeed * Time.deltaTime);
+        m_Rigidbody.MoveRotation(m_Rotation);
+        m_Rigidbody.MovePosition(m_Rigidbody.position + m_Movement * currentSpeed * Time.deltaTime);
+        
         if (isWalking)
         {
             if (!m_AudioSource.isPlaying)
             {
-             m_AudioSource.Play();
+                m_AudioSource.Play();
             }
         }
         else
         {
             m_AudioSource.Stop();
         }
+    }
+
+    void OnEnable()
+    {
+        // Enable actions when component is enabled
+        MoveAction?.Enable();
+        SprintAction?.Enable();
+    }
+
+    void OnDisable()
+    {
+        // Disable actions when component is disabled
+        MoveAction?.Disable();
+        SprintAction?.Disable();
     }
 }
