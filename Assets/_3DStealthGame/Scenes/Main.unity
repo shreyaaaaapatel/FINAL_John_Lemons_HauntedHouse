@@ -2499,7 +2499,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -30, y: 29}
+  m_AnchoredPosition: {x: -48.3, y: 166.3}
   m_SizeDelta: {x: 990.51587, y: 177.46161}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1315017634
@@ -2522,10 +2522,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game Paused
+  m_text: 'Game Paused!
+
+    Press ESC to resume'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 01bdcd7e166ba0b40a761d7ac0db08d9, type: 2}
-  m_sharedMaterial: {fileID: -1303001338784023942, guid: 01bdcd7e166ba0b40a761d7ac0db08d9,
+  m_fontAsset: {fileID: 11400000, guid: caeca328367e2b849a81b6d5471b8525, type: 2}
+  m_sharedMaterial: {fileID: -8311846171455559840, guid: caeca328367e2b849a81b6d5471b8525,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2550,14 +2552,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 206.71
-  m_fontSizeBase: 206.71
+  m_fontSize: 188.64
+  m_fontSizeBase: 188.64
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2566,7 +2568,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
